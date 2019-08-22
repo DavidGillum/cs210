@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+	jcenter()
+}
+
+sourceCompatibility = 1.8 // Reaser's TODO: adopt 11
+
+dependencies {
+	// For Groovy
+	compile 'org.codehaus.groovy:groovy:3.0.0-beta-3'
+
+	// For JUnit 5
+	testImplementation (
+		'org.junit.jupiter:junit-jupiter-api:5.3.2',
+		'org.junit.jupiter:junit-jupiter-params:5.3.2',
+	)
+	testRuntimeOnly(
+		'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+	)
+
+	// For JSON-P (Module 5)
+	compile 'javax.json:javax.json-api:1.1.4'
+	runtime 'org.glassfish:jakarta.json:1.1.5'
+
+	// Reaser's TODO: deprecate
+	testCompile	'org.apache.commons:commons-math3:3.6.1'
+}
+
+test {
+	useJUnitPlatform()
+
+	testLogging {
+		showExceptions true
+		showCauses true
+		showStackTraces true
+		exceptionFormat 'full'
+		events 'passed', 'failed', 'standardOut', 'standardError'
+	}
+}
+
