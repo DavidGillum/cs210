@@ -19,9 +19,9 @@ import java.io.IOException;
 public class Server implements Closeable {
 	@SuppressWarnings("unused")
 	private static final String
-		STUDENT_NAME  = "Your Name",
-		STUDENT_IDNUM = "000000000",
-		STUDENT_EMAIL = "email@mix.wvu.edu";
+		STUDENT_NAME  = "David Gillum",
+		STUDENT_IDNUM = "800234355",
+		STUDENT_EMAIL = "dsg0015@mix.wvu.edu";
 	
 	private Database database;
 	private AbstractDriver[] drivers;
