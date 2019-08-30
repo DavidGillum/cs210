@@ -45,9 +45,11 @@ public class Console {
 		 * for the case-insensitive sentinel EXIT, which
 		 * terminates the console.
 		*/
+		String text = " ";
+		while(!text.equals("Exit")) {
 		out.print(">> ");
-		String text = in.nextLine();
-		in.close();
+		text = in.nextLine();
+		//in.close();
 		
 		List<Response> responses = server.interpret(text);
 		
@@ -57,16 +59,19 @@ public class Console {
 		 * may be one or more responses, and each response
 		 * should be reported in sequence.
 		 */
-		out.println("Success:       " + responses.get(0).getSuccess());
-		out.println("Message:       " + responses.get(0).getMessage());
-
+		for(int i = 0; i < responses.size();i++) {
+		out.println("Success:       " + responses.get(i).getSuccess());
+		out.println("Message:       " + responses.get(i).getMessage());
+		
+		}
 		// TODO: Translate to tabular view in Module 4.
 		Table table = responses.get(0).getTable();
 		if (table != null) {
 			out.println("Table Schema:  " + table.getSchema());
 			out.println("Table State:   " + table.getState());
-		}
 		
+		}
+		}
 		in.close();
 		out.close();
 	}
