@@ -36,6 +36,7 @@ public class Server implements Closeable {
 		this.drivers = new AbstractDriver[] {
 				new Echo(), 
 				new Range(),
+				new SquaresBelow(),
 
 				new Unrecognized()// unrecognized will always be the last driver and handle any previously
 									// unrecognized drivers
