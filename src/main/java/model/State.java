@@ -17,7 +17,7 @@ public class State extends HashMap<Object, List<Object>> {
 	}
 	
 	/** Do not modify. **/
-	public State(State table) {
-		super(table);
+	public State(State state) {
+		super(state);
 	}
 }
