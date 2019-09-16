@@ -37,6 +37,9 @@ public class Server implements Closeable {
 				new Echo(), 
 				new Range(),
 				new SquaresBelow(),
+				new CreateTable(),
+				new DropTable(),
+				new ShowTables(),
 
 				new Unrecognized()// unrecognized will always be the last driver and handle any previously
 									// unrecognized drivers
