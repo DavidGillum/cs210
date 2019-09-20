@@ -51,20 +51,22 @@ abstract class AbstractModule {
 		
 		def queries = query_code.split(';')
 		def query_count = queries.size()
-		def stored_table_name = stored_schema?.get('table_name')
+		
+		def on_table = (queries[-1].trim() =~ /^\w+\s+\w+\s+([a-z][a-z0-9_]*)\b/)
+		def stored_table_name = on_table.size() == 1 ? on_table[0][1] : null
 		
 		def responses = SERVER.interpret(query_code)
 		def last = responses[-1]
 		
 		if (SERIALIZE_MODE) {
 			computed_schemas[total_queries-1] =
-				((Table) last.getTable())?.getSchema().inspect()
+				last.getTable()?.getSchema().inspect()
 				
 			computed_states[total_queries-1] =
 				last.getTable()?.getState().inspect().replaceAll(/(true|false|null):/, '($1):')
 			
 			stored_schemas[total_queries-1] =
-				((Table) SERVER.database().get(stored_table_name))?.getSchema().inspect()
+				SERVER.database().get(stored_table_name)?.getSchema().inspect()
 			
 			stored_states[total_queries-1] =
 				SERVER.database().get(stored_table_name)?.getState().inspect().replaceAll(/(true|false|null):/, '($1):')
