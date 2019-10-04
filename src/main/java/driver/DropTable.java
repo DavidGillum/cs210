@@ -29,6 +29,10 @@ public class DropTable extends AbstractDriver {
 		Table table = new Table();
 		
 		String table_name = matcher.group(1);
+		
+		if(!db.containsKey(table_name)){
+			return new Response(false, "Table does not exist", null);
+		}
 		if(db.containsKey(table_name))
 			return new Response(true, table_name+ " had "+ db.get(table_name) + "rows", db.remove(table_name));
 		else return new Response(false, "Table doesn't exist.", null);

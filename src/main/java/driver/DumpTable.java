@@ -22,7 +22,9 @@ public class DumpTable extends AbstractDriver {
 	public Response execute(String query, Database db) {
 		Matcher matcher = pattern.matcher(query.trim());
 		if (!matcher.matches()) return null;
-		
+		if(!db.containsKey(matcher.group(1))){
+			return new Response(false, "Table does not exist", null);
+		}
 		Table table = new Table();
 		
 		table = db.get(matcher.group(1));

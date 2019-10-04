@@ -28,6 +28,12 @@ public class InsertIntoTable extends AbstractDriver {
 		String table_name = matcher.group(2);
 		Table table = db.get(table_name);
 		Table newTable = new Table();
+		
+		if (!db.containsKey(table_name)) {
+			return new Response(false, "Table does not exist", null);
+		}
+
+		
 		List<String> column_names = table.getSchema().getStringList("column_names");
 		
 		List<String> column_types = table.getSchema().getStringList("column_types");
@@ -70,10 +76,7 @@ public class InsertIntoTable extends AbstractDriver {
 		if (matcher.group(4) == null)
 			return new Response(false, "there are no columns", null);
 
-		if (!db.containsKey(table_name)) {
-			return new Response(false, "Table does not exist", null);
-		}
-
+		
 		if (matcher.group(1).equals("INSERT")) {
 
 			if (!(matcher.group(3) == null)) {
@@ -237,8 +240,7 @@ public class InsertIntoTable extends AbstractDriver {
 								row = (ArrayList<Object>) table.getState().get(Boolean.parseBoolean(input_values.get(pindex)));
 						
 							
-							System.out.print(pindex+"    \n"); 	
-							System.out.print(input_values.get(pindex)+"     \n");
+							
 							if (input_names.get(j).equals(primary)) {
 								
 								pCount++;
@@ -297,6 +299,70 @@ public class InsertIntoTable extends AbstractDriver {
 					return new Response(false, "Must have a primary column", null);
 		}
 			if (matcher.group(3) == null) {
+				
+				if(input_values.size() != column_names.size())
+					return new Response(false, "Must have equal values to schema columns", null);
+				for (int i = 0; i < column_names.size(); i++) {
+					
+					String currentVal = input_values.get(i).trim();
+					
+					if(column_types.get(pindex).toLowerCase().equals("string")) {
+						row = (ArrayList<Object>) table.getState().get(input_values.get(pindex).substring(1, input_values.get(pindex).length()-1));
+					}
+					else if(column_types.get(pindex).toLowerCase().equals("integer"))
+							row = (ArrayList<Object>) table.getState().get(Integer.parseInt(input_values.get(pindex)));
+					else if(column_types.get(pindex).toLowerCase().equals("boolean"))
+						row = (ArrayList<Object>) table.getState().get(Boolean.parseBoolean(input_values.get(pindex)));
+				
+					if (column_names.get(i).equals(primary)) {
+						
+						pCount++;
+						
+					}
+					else if (column_types.get(i).toLowerCase().equals("boolean")) {
+						if (currentVal.toLowerCase().equals("true")) {
+							
+							row.set(i, true);
+						}
+						else if (currentVal.toLowerCase().equals("false")) {
+							
+							row.set(i, false);
+						}
+						else
+							return new Response(false, "cannot add non boolean", null);
+					}
+
+					else if (column_types.get(i).toLowerCase().equals("integer")) {
+
+						if (currentVal.trim().charAt(0) == '0' && currentVal.length() > 1)
+							return new Response(false, "can't have leading zeros", null);
+						else if (currentVal.contains("."))
+							return new Response(false, "can't have decimal points", null);
+						else
+							try {
+								//table.getState().get(primary_name).set(i, Integer.valueOf(currentVal));
+								row.set(i, Integer.valueOf(currentVal));
+								
+							} catch (NumberFormatException e) {
+								return new Response(false, "Only integers can be put in an integer column",
+										null);
+							}
+					}
+
+					else if (column_types.get(i).toLowerCase().equals("string")) {
+						
+						if (currentVal.charAt(0) == '"') {
+							if (currentVal.substring(1, currentVal.length() - 1).contains("\""))
+								return new Response(false, "Cannot contail \"", null);
+							if (currentVal.contains("\"")) {
+								row.set(i, currentVal.substring(1, currentVal.length() - 1));
+							}
+							
+						} else
+							return new Response(false, " ", null);
+						
+					}
+				}
 				
 			}
 		}
