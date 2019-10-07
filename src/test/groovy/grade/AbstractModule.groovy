@@ -87,12 +87,14 @@ abstract class AbstractModule {
 			query_count == 1 ? query_success : [true]*(query_count-1) + [query_success],
 			query_count == 1 ? last.getSuccess() : responses.collect{it.getSuccess()},
 			String.format(
-				'%s %s was expected to %s%s%s.',
+				'%s %s was expected to %s, reason: <%s>, message: <%s>,',
 				query_success ? 'Valid' : 'Invalid',
 				query_count == 1 ? 'query' : 'script',
-				query_success ? 'succeed' : 'fail',
-				query_count == 1 || query_success ? '' : ' only on last query',
-				test_reason ? (' because ' + test_reason) : ''
+				(query_count == 1
+					? (query_success ? 'succeed' : 'fail')
+					: (query_success ? 'succeed for all queries' : 'fail only on last query')),
+				test_reason ?: 'none provided',
+				last.getMessage() ?: 'none returned'
 			)
 		)
 		
