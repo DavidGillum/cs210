@@ -41,7 +41,7 @@ public class InsertIntoTable extends AbstractDriver {
 		ArrayList<String> input_names = new ArrayList<String>();
 		ArrayList<String> input_values = new ArrayList<String>();
 
-		// matcher.group(4).split(",")
+		
 
 		int pindex = (int) table.getSchema().get("primary_column");
 

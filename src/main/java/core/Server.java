@@ -42,7 +42,8 @@ public class Server implements Closeable {
 				new ShowTables(),
 				new DumpTable(),
 				new InsertIntoTable(),
-
+				new Select(),
+				
 				new Unrecognized()// unrecognized will always be the last driver and handle any previously
 									// unrecognized drivers
 		};
