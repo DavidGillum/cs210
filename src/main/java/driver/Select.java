@@ -172,7 +172,7 @@ public class Select  extends AbstractDriver{
 			if(input_names.contains("*")) {
 				newTable_names.addAll(column_names);
 				newTable_types.addAll(column_types);
-//				newTable.getState().putAll(table.getState());
+				
 				Object[] state = table.getState().entrySet().toArray();
 				int compare_index = 0;
 				
@@ -194,7 +194,7 @@ public class Select  extends AbstractDriver{
 					}
 					
 					if(column_types.get(compare_index).equals("boolean")) {
-						System.out.print(value+"\n");
+						
 						if(!value.equals("true") && !value.equals("false") && !value.trim().equals("null"))
 							return new Response(false, "Booleans can only be compared to booleans", null);
 						
@@ -596,7 +596,6 @@ public class Select  extends AbstractDriver{
 		}
 		
 		newTable.getSchema().put("column_names", newTable_names);
-//		newTable.getState().put(row.get(pindex), row);
 		newTable.getSchema().put("column_types", newTable_types);
 		newTable.getSchema().put("table_name", null);
 		newTable.getSchema().put("primary_column", pindex);
