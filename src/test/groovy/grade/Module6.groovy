@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.DynamicTest.*
 import static org.junit.jupiter.api.DynamicContainer.*
 import org.junit.jupiter.api.*
 import java.util.stream.*
-import java.lang.reflect.Field
+import java.lang.reflect.*
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Module6 {
@@ -26,28 +26,62 @@ public class Module6 {
 	@BeforeAll
 	static void setup() {
 		grade = 0
-		
-		subject = new storage.HashMap<String, Integer>()
 		exemplar = new java.util.HashMap<String, Integer>()
-		
 		RNG = new Random(RANDOM_SEED)
 	}
 	
 	@TestFactory
-	@DisplayName('Compliance [0%]')
+	@DisplayName('Compliance [Audit]')
 	@Order(1)
 	final compliance() {
-		return IntStream.rangeClosed(1, 2).mapToObj({step ->
+		return IntStream.rangeClosed(1, 5).mapToObj({step ->
 			if (step == 1) {
+				dynamicTest('No-Argument Constructor', {
+					try {
+						final Class<?> clazz = Class.forName("storage.HashMap");
+						clazz.getDeclaredConstructor();
+					}
+					catch (NoSuchMethodException e) {
+						fail('Expected a standard no-argument constructor, but documented constructor is missing');
+					}
+				})
+			}
+			else if (step == 2) {
+				dynamicTest('Copy Constructor', {
+					try {
+						final Class<?> clazz = Class.forName("storage.HashMap");
+						final Class<?> ifaze = Class.forName("java.util.Map");
+						clazz.getDeclaredConstructor(ifaze);
+					}
+					catch (NoSuchMethodException e) {
+						fail('Expected a standard copy constructor, but documented constructor is missing');
+					}
+				})
+			}
+			else if (step == 3) {
+				dynamicTest('Class Instantiable', {
+					try {
+						subject = new storage.HashMap<String, Integer>()
+					}
+					catch (Exception e) {
+						fail('Expected to instantiate a hash map, but the hash map constructor fails', e);
+					}
+				})
+			}
+			else if (step == 4) {
 				dynamicTest('Original Implementation', {
+					if (subject == null) fail('Depends on preceding test')
+						
 					assertFalse(
 						subject instanceof java.util.AbstractMap,
 						'Expected an original hash map, but project uses built-in hash map'
 					)
 				})
 			}
-			else if (step == 2) {
+			else if (step == 5) {
 				dynamicTest('No Forbidden Classes', {
+					if (subject == null) fail('Depends on preceding test')
+					
 					final allowed = [] as Set,
 						  forbidden = [] as Set;
 			  
@@ -89,7 +123,9 @@ public class Module6 {
 	@DisplayName('Battery [85%]')
 	@Order(2)
 	final battery() {
-		BATTERY_LOG?.println("Map map = new adt.HashMap();")
+		if (subject == null) fail('Depends on compliance tests')
+			
+		BATTERY_LOG?.println("Map map = new storage.HashMap();")
 		
 		RNG.doubles(MAP_OPERATIONS).mapToObj({ p -> 
 			if      (p < 0.60) test('put', key(), val())
@@ -122,6 +158,8 @@ public class Module6 {
 	@DisplayName('Robustness [15%]')
 	@Order(3)
 	final robustness() {
+		if (subject == null) fail('Depends on compliance tests')
+			
 		return IntStream.rangeClosed(1, 3).mapToObj({step -> 
 			if (step == 1) {
 				dynamicTest("this.equals(_) ${stats()}", {
