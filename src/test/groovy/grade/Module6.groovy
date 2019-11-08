@@ -10,7 +10,6 @@ import java.lang.reflect.*
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Module6 {
 	static final MAP_OPERATIONS	= 1_000,
-				 KEY_ALPHABET	= '012456789abcdef',
 				 RANDOM_SEED	= 2019_08
 	
 	static final BATTERY_LOG = null
@@ -26,6 +25,7 @@ public class Module6 {
 	@BeforeAll
 	static void setup() {
 		grade = 0
+		subject = null
 		exemplar = new java.util.HashMap<String, Integer>()
 		RNG = new Random(RANDOM_SEED)
 	}
@@ -207,15 +207,37 @@ public class Module6 {
 		System.out.println("[M6 PASSED ${Math.round(grade)}% OF WEIGHTED TESTS]")
 	}
 	
+	static final KEY_ALPHABET = '012456789abcdef'
 	static final key() {
 		RNG.ints((long) (Math.abs(RNG.nextGaussian())*1.5+1)).mapToObj({i -> KEY_ALPHABET[i % KEY_ALPHABET.size()]}).collect(Collectors.joining())
 	}
 	
+	static final VALUE_RANGE = 1_000
 	static final val() {
-		RNG.nextInt(1000)
+		RNG.nextInt(VALUE_RANGE)
 	}
 	
 	static final stats() {
-		return "[n=${subject.size()}, \u03B1=${(int) (subject.loadFactor()*1000) / 1000}]"
+		def buff = new StringBuffer('[n=')
+		
+		try {
+			buff.append(subject.size())
+		}
+		catch (Exception e) {
+			buff.append('?')
+		}
+		
+		buff.append(', \u03B1=')
+		
+		try {
+			buff.append((int) (subject.loadFactor()*1000) / 1000)
+		}
+		catch (Exception e) {
+			buff.append('?')
+		}
+		
+		buff.append(']')
+
+		return buff.toString()
 	}
 }
