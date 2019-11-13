@@ -93,8 +93,9 @@ public class Module6 {
 						for (Field f: clazz.getFields() + clazz.getDeclaredFields()) {
 							f.setAccessible(true)
 							if (f.get(subject) != null) {
-								final gc = f.get(subject).getClass()
-								final used = gc.isArray() ? gc.getComponentType() : gc;
+								def used = f.get(subject).getClass();
+								while (used.isArray())
+									used = used.getComponentType()
 								if (!used.isPrimitive() && !used.isInterface()) {
 									if (!(used.getPackage()?.getName() in exempt + internal))
 										forbidden.add(used)
