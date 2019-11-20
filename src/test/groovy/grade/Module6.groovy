@@ -93,8 +93,9 @@ public class Module6 {
 						for (Field f: clazz.getFields() + clazz.getDeclaredFields()) {
 							f.setAccessible(true)
 							if (f.get(subject) != null) {
-								final gc = f.get(subject).getClass()
-								final used = gc.isArray() ? gc.getComponentType() : gc;
+								def used = f.get(subject).getClass();
+								while (used.isArray())
+									used = used.getComponentType()
 								if (!used.isPrimitive() && !used.isInterface()) {
 									if (!(used.getPackage()?.getName() in exempt + internal))
 										forbidden.add(used)
@@ -162,10 +163,10 @@ public class Module6 {
 			
 		return IntStream.rangeClosed(1, 3).mapToObj({step -> 
 			if (step == 1) {
-				dynamicTest("this.equals(_) ${stats()}", {
+				dynamicTest("_.equals(this) ${stats()}", {
 					assertTrue(
-						subject.equals(exemplar),
-						'this.equals(other_map) must yield correct results; depends on entrySet() via iterator()'
+						((Object) exemplar).equals((Object) subject),
+						'other_map.equals(this) must yield correct results; depends on this map\'s size() and containsKey()'
 					)
 					
 					grade += 5
@@ -190,10 +191,10 @@ public class Module6 {
 				})
 			}
 			else if (step == 3) {
-				dynamicTest("_.equals(this) ${stats()}", {
+				dynamicTest("this.equals(_) ${stats()}", {
 					assertTrue(
-						exemplar.equals(subject),
-						'other_map.equals(this) must yield correct results; depends on entrySet() via iterator()'
+						((Object) subject).equals((Object) exemplar),
+						'this.equals(other_map) must yield correct results; depends on this map\'s entrySet() via iterator()'
 					)
 					
 					grade += 5
