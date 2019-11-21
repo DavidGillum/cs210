@@ -3,6 +3,7 @@ package core;
 import model.Response;
 import model.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.PrintStream;
@@ -67,12 +68,112 @@ public class Console {
 		// TODO: Translate to tabular view in Module 4.
 		Table table = responses.get(0).getTable();
 		if (table != null) {
-			out.println("Table Schema:  " + table.getSchema());
-			out.println("Table State:   " + table.getState());
+//			out.println("Table Schema:  " + table.getSchema());
+//			out.println("Table State:   " + table.getState());
 		
+			String table_name = (String) table.getSchema().get("table_name");
+			List<String> column_names = table.getSchema().getStringList("column_names");
+			List<String> column_types = table.getSchema().getStringList("column_types");
+			Object[] raw_state = table.getState().entrySet().toArray();
+			
+			if(table_name != null) {
+				out.print("[" + table_name + "]\n");
+			}
+			
+			int pindex = (int) table.getSchema().get("primary_column");
+			
+			int column_length = 15;
+			
+			
+			out.print("+");
+			for(int i = 0; i < column_names.size(); i++) {
+				tableBoundary();
+			}
+			out.print("+\n");
+			
+			for(int i = 0; i < column_names.size(); i++) {
+				String name = column_names.get(i);
+				if(i == pindex) {
+					name = name+"*";
+				}
+				out.print("|");
+				out.print(name);
+				for(int j = 0; j < column_length - name.length(); j++) {
+					out.print(" ");
+				}
+				
+			}
+			out.print(" |\n");
+			for(int i = 0; i < column_names.size(); i++) {
+				
+			}
+			out.print("|");
+			for(int i = 0; i < column_names.size(); i++) {
+				tableBoundary2();
+			}
+			out.print("|\n");
+			
+			for(int i = 0; i < raw_state.length; i++) {
+				raw_state[i] = raw_state[i].toString();
+				int begin = raw_state[i].toString().indexOf("[");
+				int end = raw_state[i].toString().indexOf("]");
+				String temp = raw_state[i].toString().substring(begin + 1, end);
+				String[] state_values = temp.split(",");
+				
+				for(int j = 0; j < state_values.length; j ++) {
+					out.print("|");
+					String value = state_values[j].trim();
+					if(value.equals("null")) {
+						value = " ";
+					}
+					if(column_types.get(j).toLowerCase().equals("string")) {
+						value = "\"" + value + "\"";
+					}
+					if(column_types.get(j).toLowerCase().equals("integer")) {
+						for(int k = 0; k < column_length - value.length(); k++) {
+							out.print(" ");
+						}
+						out.print(value);
+						
+					}
+					else if(value.length() < column_length) {
+						out.print(value);
+						for(int k = 0; k < column_length - value.length(); k++) {
+							out.print(" ");
+						}
+					}
+					else if(value.length() >= column_length) {
+						int subtractor = value.length() - column_length + 4;
+						value = value.substring(0, value.length() - subtractor);
+						value = value + "...";
+						out.print(value);
+						for(int k = 0; k < column_length - value.length(); k++) {
+							out.print(" ");
+						}
+					}
+				}
+				out.print(" |\n");
+			}
+			
+			out.print("+");
+			for(int i = 0; i < column_names.size(); i++) {
+				tableBoundary();
+			}
+			out.print("+\n");
+			
+			
 		}
 		}
 		in.close();
 		out.close();
 	}
+	 public static void tableBoundary() {
+		 System.out.print("----------------");
+	 }
+	 public static void tableBoundary2() {
+		 System.out.print("================");
+	 }
 }
+
+
+ 

@@ -600,7 +600,7 @@ public class Select  extends AbstractDriver{
 		newTable.getSchema().put("table_name", null);
 		newTable.getSchema().put("primary_column", pindex);
 		
-		return new Response(true, " ", newTable);
+		return new Response(true, "Chosen rows were selected from table", newTable);
 	}
 
 }

@@ -1,0 +1,57 @@
+<test_table>
+<Schema>
+<list key="column_types">
+<element value="string"/>
+<element value="integer"/>
+<element value="boolean"/>
+</list>
+<list key="column_names">
+<element value="ps"/>
+<element value="i"/>
+<element value="b"/>
+</list>
+<list key="primary_column">
+<element value="0"/>
+</list>
+<list key="table_name">
+<element value="test_table"/>
+</list>
+</Schema>
+<state>
+<list key="xx">
+<element value="xx"/>
+<element value="4"/>
+<element value="true"/>
+</list>
+<list key="yy">
+<element value="yy"/>
+<element value="2"/>
+<element value="true"/>
+</list>
+<list key="xy">
+<element value="xy"/>
+<element value="5"/>
+<element value="false"/>
+</list>
+<list key="x">
+<element value="x"/>
+<element value="null"/>
+<element value="true"/>
+</list>
+<list key="y">
+<element value="y"/>
+<element value="1"/>
+<element value="null"/>
+</list>
+<list key="z">
+<element value="z"/>
+<element value="null"/>
+<element value="null"/>
+</list>
+<list key="yx">
+<element value="yx"/>
+<element value="3"/>
+<element value="false"/>
+</list>
+</state>
+</test_table>

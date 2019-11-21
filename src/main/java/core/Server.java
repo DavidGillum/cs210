@@ -43,6 +43,8 @@ public class Server implements Closeable {
 				new DumpTable(),
 				new InsertIntoTable(),
 				new Select(),
+				new Export(),
+				new Import(),
 				
 				new Unrecognized()// unrecognized will always be the last driver and handle any previously
 									// unrecognized drivers

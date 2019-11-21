@@ -61,7 +61,7 @@ public class CreateTable extends AbstractDriver {
 		table.getSchema().put("primary_column", primary_col);
 		db.put(table_name, table);
 		
-		return new Response(true, null, table);
+		return new Response(true, "Table " + table_name + " was created", table);
 	}
 }
 

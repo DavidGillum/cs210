@@ -1,0 +1,50 @@
+
+{
+    "column_types": [
+        "string",
+        "integer",
+        "boolean"
+    ],
+    "column_names": [
+        "ps",
+        "i",
+        "b"
+    ],
+    "primary_column": 0,
+    "table_name": "test_table",
+    "xx": [
+        "xx",
+        4,
+        true
+    ],
+    "yy": [
+        "yy",
+        2,
+        true
+    ],
+    "xy": [
+        "xy",
+        5,
+        false
+    ],
+    "x": [
+        "x",
+        "null",
+        true
+    ],
+    "y": [
+        "y",
+        1,
+        "null"
+    ],
+    "z": [
+        "z",
+        "null",
+        "null"
+    ],
+    "yx": [
+        "yx",
+        3,
+        false
+    ]
+}
