@@ -3,6 +3,7 @@ package driver;
 import model.Database;
 import model.Table;
 import model.Response;
+import model.Schema;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -47,20 +48,20 @@ public class Range extends AbstractDriver {
 		int upper = Integer.parseInt(matcher.group(1));
 		String name = matcher.group(2) != null ? matcher.group(2) : "number";
 		
-		Table table = new Table();
-		
-		table.getSchema().put("table_name", null);
+		Schema schema = new Schema();
+		schema.put("table_name", null);
 		
 		List<String> names = new LinkedList<>();
 		names.add(name);
-		table.getSchema().put("column_names", names);
+		schema.put("column_names", names);
 		
 		List<String> types = new LinkedList<>();
 		types.add("integer");
-		table.getSchema().put("column_types", types);
+		schema.put("column_types", types);
 		
-		table.getSchema().put("primary_column", 0);
+		schema.put("primary_column", 0);
 		
+		Table table = new Table(schema);
 		for (int i = 0; i < upper; i++) {
 			List<Object> row = new LinkedList<>();
 			row.add(i);
