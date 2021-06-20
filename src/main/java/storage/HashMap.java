@@ -363,20 +363,18 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
 
 	@Override
 	public V get(Object key) {
-		System.out.print("Before hash\n\n");
 		int hash = firstHash(key);
-		System.out.print("After hash\n\n");
+		
 		int index = hash % capacity;
 		
 		int hash2 = secondHash(key);
-		System.out.print("after second hash\n\n");
-		System.out.print("Before if\n\n");
+		
 		if (capsule[index] == null) {
 			return null;
 		} else {
-			System.out.print("Inside Else\n\n");
+			
 			if (((KVPair) capsule[index]).getKey().equals((K) key)) {
-				System.out.print("inside inner if\n\n");
+			
 				if (((KVPair) capsule[index]).getValue() != null) {
 					return (V) ((KVPair) capsule[index]).getValue();
 				}

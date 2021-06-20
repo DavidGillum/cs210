@@ -36,15 +36,15 @@ public class Server implements Closeable {
 		this.drivers = new AbstractDriver[] {
 				new Echo(), 
 				new Range(),
-				new SquaresBelow(),
+//				new SquaresBelow(),
 				new CreateTable(),
 				new DropTable(),
 				new ShowTables(),
 				new DumpTable(),
 				new InsertIntoTable(),
 				new Select(),
-				new Export(),
-				new Import(),
+//				new Export(),
+//				new Import(),
 				
 				new Unrecognized()// unrecognized will always be the last driver and handle any previously
 									// unrecognized drivers

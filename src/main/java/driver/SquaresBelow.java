@@ -47,7 +47,7 @@ public class SquaresBelow extends AbstractDriver {
 
 		int upper = Integer.parseInt(matcher.group(1));
 		
-		Table table = new Table();
+		Table table = new Table(null);
 		String column_number;
 		String column_square;
 		

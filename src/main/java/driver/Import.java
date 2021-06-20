@@ -42,7 +42,7 @@ public class Import extends AbstractDriver {
 			return null;
 		
 		String table_name = matcher.group(3);
-		Table table = new Table();
+		Table table = new Table(null);
 		String file_name = matcher.group(1);
 		
 		if(table_name == null) {
